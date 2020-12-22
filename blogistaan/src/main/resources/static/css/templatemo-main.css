@@ -289,7 +289,9 @@ h4, .h4 {
   margin: 20px auto 15px auto;
 }
 
-
+.btn:hover{
+	opacity:0.7;
+}
 
 .projects-content {
   padding-top: 20vh;

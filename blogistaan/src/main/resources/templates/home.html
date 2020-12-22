@@ -14,7 +14,7 @@
         <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{css/fontAwesome.css}">
         <link rel="stylesheet" th:href="@{css/hero-slider.css}">
-        <link rel="stylesheet" th:href="@{css/templatemo-main.css}">
+        <!-- <link rel="stylesheet" th:href="@{css/templatemo-main.css}"> -->
         <link rel="stylesheet" th:href="@{css/owl-carousel.css}">
 
         <link th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800}" rel="stylesheet">
@@ -59,7 +59,7 @@ https://templatemo.com/tm-526-vanilla e3f2fd
       <div class="collapse navibar navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-            <a class="nav-link" th:href="@{#home}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" th:href="@{/home}">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{#about}">About</a>
@@ -69,12 +69,17 @@ https://templatemo.com/tm-526-vanilla e3f2fd
           </li>
           <li class="nav-item">
            <!--  <a class="nav-link" href="#">Login</a> -->
-            <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="button" name="login-button">Login</button>
+            <form method="post" th:action="@{/login}">
+            <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="login-button">Login</button>
           
+            </form>
           </li>
           <li class="nav-item">
-            <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="button" name="register-button">Register</button>
-          </li>
+           <form th:action="@{/signup}" method="get">
+           <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="register-button">Register</button>
+          
+           </form> 
+           </li>
 
       </ul>
 
