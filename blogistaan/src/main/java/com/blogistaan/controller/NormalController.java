@@ -4,6 +4,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +48,6 @@ public class NormalController {
 	public String signup(Model model) {
 		model.addAttribute("title", "Signup - Blogistaan");
 		model.addAttribute("user", new User());
-//		model.addAttribute("fakeSession", new Message());
 		return "/signup";
 	}
 	
@@ -65,15 +67,13 @@ public class NormalController {
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
 			user.setImage("default_image");
-//			user.setPassword(passwordEncoder.encode(user.getPassword() ) );
+			user.setPassword(passwordEncoder.encode(user.getPassword() ) );
 //			System.out.println("Here it is. 1..");
 			User result = user_repo.save(user);
-//			System.out.println("Here it is. 2..");
+			System.out.println("Here it is. 2..");
 			System.out.println(result);
 //			System.out.println("Here it is. 3..");
 			model.addAttribute("user", result);
-			
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -83,5 +83,21 @@ public class NormalController {
 			return "/signup";
 		}
 		return "/home";
+	}
+	
+	@RequestMapping(value = "/signin")
+	public String signin(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		model.addAttribute("u_id", user_repo.getUserByUserName(auth.getName()).getId());
+//		System.out.println(auth.getName() + "helloooooo");
+	    if (!(auth instanceof AnonymousAuthenticationToken)) {
+//	        User loggedInUser = user_repo.getUserByUserName(auth.getName());
+	        model.addAttribute("u_id", user_repo.getUserByUserName(auth.getName()).getId());
+	        /* The user is logged in :) */
+	        return "redirect:/user/index";
+	    }
+	    
+		model.addAttribute("title", "Signin - Blogistaan");
+		return "/login";
 	}
 }

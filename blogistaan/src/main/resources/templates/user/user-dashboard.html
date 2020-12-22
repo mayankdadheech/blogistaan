@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${title}">Document</title>
+	
+	<link rel="stylesheet" th:href="@{/css/user-dashboard.css}" href="" />
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+
+	<aside>
+<ul class="ulc">
+<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/index}"> Home</a></div></li>
+<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/user-profile}"> User profile</a></div></li>
+<li><div class="icons"><i class="fa fa-phone"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/addBlog}"> Create a new blog</a></div></li>
+<li><div class="icons"><i class="fa fa-group"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/view-user-blogs/0}"> View your blogs</a></div></li>
+<li><div class="icons"><i class="fa fa-group"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/edit-user-blogs}"> Edit your blogs</a></div></li>
+<li><div class="icons"><i class="fa fa-user"></i></div><div class="linktitle">Delete your blog</div></li>
+<li><div class="icons"><i class="fa fa-sign-out"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/logout}"> Logout</a></div></li>
+</ul>
+</aside>
+
+
+</body>
+</html>
