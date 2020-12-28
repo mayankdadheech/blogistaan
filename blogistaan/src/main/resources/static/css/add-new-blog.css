@@ -1,0 +1,144 @@
+
+.image-size{
+	height:30px;
+	width:30px;
+	border-radius: 60%;
+	margin-right: 2px;
+}
+
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+}
+body{
+ background:linear-gradient(rgba(30,53,47,0.9),rgba(123,109,141,0.9)),
+ url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhNbHqUc1H01VYqnX1KMQrkmRc5JB2Ici_sQ&usqp=CAU");
+ background-position: center;
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-attachment: fixed;
+ color: white;
+}
+/*Header*/
+header{
+ width: 30%;
+ text-align: center;
+ margin:0 auto;
+ padding-top:35px 0 0;
+}
+
+/* Freecodecamp */
+#title{
+ font-size: 24px;
+ font-family: 'Baloo Tammudu 2', cursive;
+ color: white;
+}
+/* Paragraph */
+#description{
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+ font-weight: 600;
+}
+/*Container*/
+#survey-form{
+ margin: auto;
+ width: 100vw;
+ padding: 40px 50px;
+ border-radius: 2%;
+ background: rgba(42, 50, 73,0.9);
+ opacity: 0.8;
+ box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.2);
+}
+/* All labels */
+#name-label, #email-label, #number-label, #dropdown-label, legend, #favorite-label, #comment-label {
+    font-family: 'Karla', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.container{
+    display: inline;
+    margin-bottom: 5px;
+}
+/* Radio and Check Buttons */
+fieldset{
+    margin-top: 40px;
+    margin-bottom: 30px;
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+}
+/* Inputs for name, age and email */
+#name, #number, #email, #secondName, #work{
+    border:0 solid #eee;
+    border-radius: 10px;
+    width: 100%;
+    padding:5px;
+}
+/* Dropdown Options */
+select{
+    width: 100%;
+    padding: 10px 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: block; 
+    transition: all 0.15s ease-in-out;
+}
+/* Inputs */
+input, textarea, select{
+    font-family:'Hind', sans-serif;
+    font-weight: bold;
+    margin-top: 10px;
+}
+/* Radio and Checkboxes */
+input[type=radio], input[type=checkbox] {
+    display: inline-block;
+     margin-right: 0.625em; 
+    height:20px;
+    margin-top: 0;
+}
+/* Comment Textarea */
+#comment{
+    width: 100%;
+    resize: vertical;
+    height: 80px;
+    padding:5px;
+}
+/* Submit button */
+#submit{
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+#submit:hover{
+    font-weight: 600;
+    background-color: rgba(76, 175, 80, 0.6);
+}
+/* Media query */
+@media only screen and (min-width: 600px) {
+    /* for tablets */
+    #title{
+        font-size: 29px;
+    }
+    #survey-form{
+        width: 570px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    /* for deskstop */
+    #title{
+        font-size: 37px;
+    }
+    #description{
+        font-size: 20px;
+    }
+    #survey-form{
+        width: 700px;
+    }
+}
+
+
+
