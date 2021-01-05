@@ -16,90 +16,59 @@
   <link rel="stylesheet" th:href="@{/css/hero-slider.css}">
   <link rel="stylesheet" th:href="@{/css/owl-carousel.css}">
 
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/fc383a6465.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3 mynav" style=" background-color:#23120b; font-size:15px;">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navibar navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" th:href="@{/home}">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{#about}">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#latest-blogs">Blogs</a>
-          </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="#">Login</a> -->
-            <form method="post" th:action="@{/login}">
-            <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="login-button">Login</button>
-            </form>
-          </li>
-          <li class="nav-item">
-           <form th:action="@{/signup}" method="get">
-           <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="register-button">Register</button>
-           </form> 
-           </li>
-      </ul>
-      </div>
-    </nav>
-
-
-
-	<aside>
-					
-		<div>
-				<div class="navulli"><a class="navullia" href="#">Create Blog <i class="fas fa-chevron-down"></i></a>
-					<div class="navulliul">
-						<div th:if="${blogDetails}" th:each="blog: ${blogDetails}">
-						<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}" href="#">1 tester</a></div>
-						</div>
-						<div class="dropdown-divider"></div>
-						<div class="navulliulli"><a class="navulliullia navullia trigger_popup_fricc" href="#">Add Blog</a></div>
-						
-						
-						
-					</div>	
-				</div>
-			</div>	
-
-<ul class="ulc">
-
-
-
-<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/index}"> New Post</a></div></li>
-<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/index}"> Posts</a></div></li>
-<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/user-profile}"> User profile</a></div></li>
-<li><div class="icons"><i class="fa fa-phone"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/addBlog}"> Create a new blog</a></div></li>
-<li><div class="icons"><i class="fa fa-group"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/view-user-blogs/0}"> View your blogs</a></div></li>
-<li><div class="icons"><i class="fa fa-group"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/edit-user-blogs}"> Edit your blogs</a></div></li>
-<li><div class="icons"><i class="fa fa-user"></i></div><div class="linktitle">Delete your blog</div></li>
-<li><div class="icons"><i class="fa fa-sign-out"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/logout}"> Logout</a></div></li>
-
-</ul>
-</aside>
-
-<div th:if="${blog1}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${blog1.bId}"></h1>
-<h1 th:text="${blog1.blogName}"></h1>
-<h1 th:text="${blog1.blogUrl}"></h1>
-</div>
+  <div th:insert="fragments/fragment-file :: navbarTopAndSide"></div>
+  
+  
+  
 <div th:if="${message}" style="padding-left:300px; padding-top:100px;">
 <h1  th:text="${message.content}"></h1>
 </div>
-<div th:if="${posts}" th:each="post: ${posts}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${post.postId}"></h1>
+<div th:unless="${message}" style="padding-top:80px; margin:30px; margin-left:250px;">
+<input type="hidden" name="bId" th:value="${blog1.bId}" >
+<table class="table table-striped" style=" background-color: #fff">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Date</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="p: ${posts}">
+      <th scope="row" th:text="${'SCMUSER'+p.postId}"></th>
+      <!-- <td > <img class="image-size" th:src="@{'/images/' + ${c.cId}+ '/' + ${c.image}}" alt="" /> -->
+      <!-- <form method="post" th:action="@{'/user/userProfile/'+${c.cId}}">
+      <button><span th:text="${c.name}" ></span></button> 
+      </form> -->
+      <!-- </td> -->
+      <td th:text="${p.title}"></td>
+      <td th:text="${p.date}"></td>
+      <td><form th:action="@{'/user/' + ${bId} + '/edit/'+${p.postId}}" method="POST"><button type="submit">Edit</button></form></td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+
+<!-- <div th:if="${blog1}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${blog1.bId}"></h1>
+<h1 th:text="${blog1.blogName}"></h1>
+<h1 th:text="${blog1.blogUrl}"></h1>
+</div> -->
+
+<!-- <div th:if="${posts}" th:each="post: ${posts}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${post.postId}"></h1>
 <h1 th:text="${post.title}"></h1>
 <h1 th:text="${post.content}"></h1>
 <h1 th:text="${post.date}"></h1>
-</div>
+</div> -->
 
 <div class="hover_bkgr_fricc  contact-formation">
     <span class="helper"></span>
@@ -151,11 +120,11 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- <script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.2.min.js}"><\/script>')</script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.2.min.js}"><\/script>')</script>
     <script th:src="@{/js/vendor/bootstrap.min.js}"></script>
     <script th:src="@{/js/plugins.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/main.js}"></script> -->
     
     <script th:inline="javascript">
 						

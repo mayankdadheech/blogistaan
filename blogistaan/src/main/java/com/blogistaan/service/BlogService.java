@@ -20,7 +20,8 @@ public class BlogService {
 	UserRepository user_repo;
 	
 	public String checkUrl(String blogUrl) {
-		Blog blog = blog_repo.getBlogByBlogUrl(blogUrl);
+//		Blog blog = blog_repo.getBlogByBlogUrl(blogUrl);
+		Blog blog = getBlogByBlogUrl(blogUrl);
 		System.out.println("Blog: "+ blog);
 //		Response response = new Response();
 //		System.out.println("Response: "+response);
@@ -56,5 +57,10 @@ public class BlogService {
 		}
 //		System.out.println("to Ccheck null or not: "+blog);
 //		return blog;
+	}
+	
+	public Blog getBlogByBlogUrl(String blogUrl) {
+		Blog blog = blog_repo.getBlogByBlogUrl(blogUrl);
+		return blog;
 	}
 }

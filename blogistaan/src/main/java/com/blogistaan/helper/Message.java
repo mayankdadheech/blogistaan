@@ -12,4 +12,6 @@ import lombok.Setter;
 public class Message {
 	private String content;
 	private String type;
+	
+	
 }

@@ -10,9 +10,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+
 @Configuration
 @EnableWebSecurity
 public class BlogConfig extends WebSecurityConfigurerAdapter{
+	
+//	public final static String IMAGE_RESOURCE_BASE = "/images/";
+//	public final static String IMAGE_FILE_BASE = "/web/careydevelopment/images/";	
+//	public final static String BASE_URL = "http://localhost:8080";
+//	
+//	@Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(IMAGE_RESOURCE_BASE + "**")
+//                .addResourceLocations("file:" + IMAGE_FILE_BASE);
+//    }
+	
 	@Bean
 	public UserDetailsService getUserDetailsService() {
 		return new UserDetailsServiceImpl();

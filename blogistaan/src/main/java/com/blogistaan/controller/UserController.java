@@ -1,6 +1,11 @@
 package com.blogistaan.controller;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 
@@ -17,14 +22,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.blogistaan.entity.Blog;
 import com.blogistaan.entity.CheckName;
 import com.blogistaan.entity.Posts;
+import com.blogistaan.entity.User;
 import com.blogistaan.helper.Message;
 import com.blogistaan.service.BlogService;
 import com.blogistaan.service.HomeService;
 import com.blogistaan.service.PostsService;
+import com.blogistaan.util.CommonUtils;
 import com.blogistaan.util.Response;
 
 @Controller
@@ -69,6 +77,7 @@ public class UserController {
 		
 		String userEmail = principal.getName();
 		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
+//		model.addAttribute("user", homeService.getUserDetails(userEmail));
 		if(!blogDetails.isEmpty()) {
 			return "redirect:/user/index/"+ blogDetails.get(0).getBId();
 		}
@@ -95,11 +104,11 @@ public class UserController {
 		System.out.println("Check if returned null true or false : " + blogOnPage==null + "...");
 		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
 		model.addAttribute("title", "User-Dashboard - Blogistaan");
-		if(blogDetails.isEmpty() || (blogOnPage == null) ) {
-			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
-			return "/user/user-dashboard";
-		}
-		else if(userId == blogOnPage.getUser().getId()) {
+//		if(blogDetails.isEmpty() || (blogOnPage == null) ) {
+//			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
+//			return "/user/user-dashboard";
+//		}
+		if(!blogDetails.isEmpty() && (blogOnPage != null) && userId == blogOnPage.getUser().getId()) {
 //			postsService.getPostByBlogId(blogOnPage.getBId());
 			System.out.println("tester");
 			List<Posts> posts = blogOnPage.getPosts();
@@ -112,6 +121,7 @@ public class UserController {
 		else {
 //		blogDetails.isEmpty() || 
 			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
+			model.addAttribute("blogDetails", blogDetails);
 			return "/user/user-dashboard";
 		}
 	}
@@ -173,6 +183,129 @@ public class UserController {
 		String userEmail = principal.getName();
 		blogService.createBlog(userEmail, blog);
 		return "redirect:/user/index";
+	}
+	
+	@RequestMapping("/{bId}/addPost")
+	public String addNewPost(Principal principal, Model model, @PathVariable("bId") int bId) {
+		String userEmail = principal.getName();
+		int userId = homeService.getUserDetails(userEmail).getId();
+		System.out.println("checkPoint1");
+		Blog blogOnPage = blogService.findById(bId);
+		System.out.println("checkPoint3");
+		System.out.println("Check if returned null true or false : ");
+		System.out.println("Check if returned null true or false : " + blogOnPage==null + "...");
+		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
+		model.addAttribute("title", "Create new post - Blogistaan");
+		
+//		  if(blogDetails.isEmpty() || (blogOnPage == null) ) {
+//		  model.addAttribute("message", new Message("Error in displaying the data", "alert-danger")); 
+//			model.addAttribute("blogDetails", blogDetails);
+//		  return "/user/add-new-post"; 
+//		  }
+		  if(!blogDetails.isEmpty() && (blogOnPage != null) && userId == blogOnPage.getUser().getId()) {
+			System.out.println("tester");
+//			List<Posts> posts = blogOnPage.getPosts();
+//			System.out.println("Post testing check: "+ posts);
+//			model.addAttribute("posts", posts);
+			model.addAttribute("blogDetails", blogDetails);
+			model.addAttribute("blog1", blogOnPage);
+			model.addAttribute("singlePost", new Posts());
+			return "/user/add-new-post";
+		}
+		else {
+//		blogDetails.isEmpty() || 
+			System.out.println("this is done: ");
+			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
+			model.addAttribute("blogDetails", blogDetails);
+			return "/user/add-new-post";
+		}
+//		return "/user/add-new-post";
+	}
+	
+	@PostMapping("/postProcess")
+	public String postProcess(@ModelAttribute("post") Posts post, @RequestParam("bId") int bId, Model model) {
+//		System.out.println(post);
+//		Blog blog = blogService.findById(bId);
+//		post.setBlog(blog);
+//		blog.getPosts().add(post);
+		postsService.addPostToBlog(post, bId);
+//		model.addAttribute("content", content);
+		return "redirect:/user/index/"+ bId;
+	}
+	
+//	@PostMapping("/uploader")
+//	@ResponseBody
+//	public String imageUploader(Model model) {
+//		System.out.println("uploader controller");
+//		return "abc";
+//	}
+	
+	@PostMapping("/image")
+	@ResponseBody
+	public String saveImage(@RequestParam("file") MultipartFile file) {
+	    String url = null;
+	    System.out.println("File name: " + file.getOriginalFilename());
+		try {
+			url = copyFile(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return url;
+	}
+	
+	
+	private String copyFile(MultipartFile file) throws Exception {		
+		String url = null;
+		String fileName = file.getOriginalFilename();
+		
+		try (InputStream is = file.getInputStream()) {
+			Path path = CommonUtils.getImagePath(fileName);
+
+			Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
+			
+			url = CommonUtils.getImageUrl(fileName);
+			System.out.println("Final url is: "+ url);
+		} catch (IOException ie) {
+			ie.printStackTrace();
+			throw new Exception("Failed to upload!");
+		}
+		
+		return url;
+	}
+	
+	@PostMapping("/{bId}/edit/{postId}")
+	public String editPost(@PathVariable("postId") int postId, @PathVariable("bId") int bId ,Model model) {
+		System.out.println(postId);
+		Blog blogOnPage = blogService.findById(bId);
+		List<Blog> blogDetails = blogOnPage.getUser().getBlogs();
+		model.addAttribute("singlePost", postsService.fidById(postId));
+		model.addAttribute("blogDetails", blogDetails);
+		model.addAttribute("blog1", blogOnPage);
+		return "/user/add-new-post";
+	}
+	
+	@GetMapping("/userProfile")
+	public String userProfile(Model model, Principal principal) {
+		model.addAttribute("blogDetails", homeService.getUserDetails(principal.getName()).getBlogs());
+		return "/user/user-profile";
+	}
+	
+	@PostMapping("/userProfileImage")
+	public String userProfileImage(@RequestParam("file") MultipartFile file, Principal principal) {
+		String fileName = file.getOriginalFilename();
+		try (InputStream is = file.getInputStream()) {
+			Path path = CommonUtils.getUserProfileImagePath(fileName, homeService.getUserDetails(principal.getName()));
+
+			Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
+			
+//			url = CommonUtils.getImageUrl(fileName);
+//			System.out.println("Final url is: "+ url);
+		} catch (IOException ie) {
+			ie.printStackTrace();
+//			throw new Exception("Failed to upload!");
+		}
+		return "";
 	}
 
 }

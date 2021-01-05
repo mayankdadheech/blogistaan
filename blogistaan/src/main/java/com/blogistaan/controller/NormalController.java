@@ -1,5 +1,7 @@
 package com.blogistaan.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,14 +15,21 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blogistaan.dao.UserRepository;
+import com.blogistaan.entity.Blog;
+import com.blogistaan.entity.Posts;
 import com.blogistaan.entity.User;
 import com.blogistaan.helper.Message;
+import com.blogistaan.service.BlogService;
+import com.blogistaan.service.HomeService;
+import com.blogistaan.service.PostsService;
 
 
 
@@ -29,9 +38,18 @@ public class NormalController {
 	
 	@Autowired
 	UserRepository user_repo;
+	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	BlogService blogService;
+	
+	@Autowired
+	PostsService postsService;
+	
+	@Autowired
+	HomeService homeService;
 	
 	@GetMapping("/home")
 	public String demo(Model model) {
@@ -99,5 +117,34 @@ public class NormalController {
 	    
 		model.addAttribute("title", "Signin - Blogistaan");
 		return "/login";
+	}
+	
+	@GetMapping("/{blogUrl}")
+	public String getBlogByUrl(@PathVariable("blogUrl") String blogUrl, Model model) {
+		Blog blog = blogService.getBlogByBlogUrl(blogUrl);
+		if(blog != null && blog.getPosts() != null) {
+//			System.out.println("getposts: "+ blog.getPosts());
+			model.addAttribute("postContentPlainText", postsService.getPostContent(blog));
+			System.out.println("getposts: "+ blog.getPosts());
+//			model.addAttribute("postsList", blog.getPosts());
+			model.addAttribute("user", blog.getUser());
+			model.addAttribute("blog", blog);
+			return "/open-blogs";
+		}
+		return "";
+	}
+	
+	@GetMapping("/{id}/{bId}/{postId}")
+	public String blogMainContent(@PathVariable("id") int id, @PathVariable("bId") int bId, @PathVariable("postId") int postId, Model model) {
+		User user= homeService.findById(id);
+		Blog blog = blogService.findById(bId);
+		Posts post = postsService.fidById(postId);
+		if(user != null || blog != null || post != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("blog", blog);
+			model.addAttribute("post", post);
+			return "/blog-main-content";
+		}
+		return "";
 	}
 }

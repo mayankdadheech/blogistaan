@@ -1,6 +1,7 @@
 package com.blogistaan.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,15 @@ public class HomeService {
 	
 	public User getUserDetails(String userEmail) {
 		return user_repo.getUserByUserName(userEmail);
+	}
+	
+	public User findById(int id) {
+		Optional<User> optional = user_repo.findById(id);
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		else {
+			return null;
+		}
 	}
 }

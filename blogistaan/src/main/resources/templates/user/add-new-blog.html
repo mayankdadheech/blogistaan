@@ -19,6 +19,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.3.0/prototype.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--  -->
+	
+	
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<link href="editor.css" type="text/css" rel="stylesheet"/>
+<script src="editor.js"></script>
+
 </head>
 <body>
 
@@ -178,8 +191,16 @@
    
    <!--Comment Section-->
    <br />
-   <label for="comment" id="comment-label">Any comments or suggestions?</label>
-    <textarea name="description" id="comment" placeholder="Enter your comments here..."></textarea>
+ <!--   <label for="comment" id="comment-label">Any comments or suggestions?</label>
+    <textarea name="description" id="comment" placeholder="Enter your comments here..."></textarea> -->
+    
+    <div id="txtEditor">	</div>
+    <script th:inline="javascript">
+
+$("#txtEditor").Editor('setText',("<html><h1 >boyke</h1>/html>"));                    
+
+</script>
+
    <!--Submit-->
    <button type="submit" id="submit">Submit</button>
   </form>
