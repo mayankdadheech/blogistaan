@@ -57,7 +57,9 @@
 	    </nav>
 	
 	
-	
+	<div th:if="${blog1}">
+<!-- <h1  th:text="${message.content}"></h1> -->
+
 		<aside>
 						
 			<div>
@@ -121,17 +123,6 @@
 </table>
 </div>
 
-<!-- <div th:if="${blog1}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${blog1.bId}"></h1>
-<h1 th:text="${blog1.blogName}"></h1>
-<h1 th:text="${blog1.blogUrl}"></h1>
-</div> -->
-
-<!-- <div th:if="${posts}" th:each="post: ${posts}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${post.postId}"></h1>
-<h1 th:text="${post.title}"></h1>
-<h1 th:text="${post.content}"></h1>
-<h1 th:text="${post.date}"></h1>
-</div> -->
-
 <div class="hover_bkgr_fricc  contact-formation">
     <span class="helper"></span>
     <div class="cetr">
@@ -179,6 +170,105 @@
 		</div>
     </div>
 </div>
+
+</div>
+
+<div th:unless="${blog1}">
+	
+			<aside>
+						
+			<div>
+					<div class="navulli"><a class="navullia" href="#">Create Blog <i class="fas fa-chevron-down"></i></a>
+						<div class="navulliul">
+							<div th:if="${blogDetails}" th:each="blog: ${blogDetails}">
+							<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}" th:href="@{'/user/index/' + ${blog.bId}}">1 tester</a></div>
+							</div>
+							<div class="dropdown-divider"></div>
+							<div class="navulliulli"><a class="navulliullia navullia trigger_popup_fricc" href="#">Add Blog</a></div>
+							
+							
+							
+						</div>	
+					</div>
+				</div>	
+	
+	<ul class="ulc">
+	
+	
+	
+	<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/index}">Home</a></div></li>
+	<li><div class="icons"><i class="fa fa-sign-out"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/logout}"> Logout</a></div></li>
+	
+	</ul>
+	</aside>
+	
+	
+	<div class="hover_bkgr_fricc  contact-formation">
+    <span class="helper"></span>
+    <div class="cetr">
+        <div class="popupCloseButton">&times;</div>
+        <h2>Please fill the mentioned details for your blog</h2>
+        <label for="blog_field">Your Blog Name</label>
+        <input type="text"  class="contact-formation-text" id="name_field" name="name" placeholder="Enter your blog name" required="required">
+        
+        <div style="display:none;" id="namediv1">
+	    <label id="namedisplay1" ></label> 
+	    <br />
+	    </div>
+        
+        <label for="blog_field">Your Blog URL</label>
+        <input type="text"  class="contact-formation-text" id="url_field" name="blogUrl" placeholder="Enter your blog url" required="required">
+        
+      <!--  <label id="res_message" style="display:none;"></label>  -->
+       
+       <div style="display:none;" id="namediv">
+	    <label id="namedisplay" ></label> 
+	    <br />
+	    </div>
+        
+        <label for="country_field">Category</label>
+        <div class="input_field select_option contact-formation-text backcol">
+          <select required="required" class=" contact-formation-text1" name="category" id="category" >
+            <option value="" >Select a category</option>
+            <option value="Business">Business</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Finance">Finance</option>
+            <option value="Fitness">Fitness</option>
+            <option value="Food">Food</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Africa">Music</option>
+            <option value="Personal">Personal</option>
+            <option value="Political">Political</option>
+            <option value="Travel">Travel</option>
+            <option value="Sports">Sports</option>
+            <option value="Other">Other</option>
+          </select>
+          <!-- <div class="select_arrow"></div> -->
+        </div>
+        <div class="btn_wrapper" >
+		  <button class="btn btn-outline-dark btns" disabled="disabled">Submit</button>
+		</div>
+    </div>
+</div>
+	
+</div>
+
+
+
+
+
+<!-- <div th:if="${blog1}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${blog1.bId}"></h1>
+<h1 th:text="${blog1.blogName}"></h1>
+<h1 th:text="${blog1.blogUrl}"></h1>
+</div> -->
+
+<!-- <div th:if="${posts}" th:each="post: ${posts}" style="padding-left:300px; padding-top:100px;"> <h1 th:text="${post.postId}"></h1>
+<h1 th:text="${post.title}"></h1>
+<h1 th:text="${post.content}"></h1>
+<h1 th:text="${post.date}"></h1>
+</div> -->
+
+
 
 
 
