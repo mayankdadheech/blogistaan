@@ -45,7 +45,7 @@
 					<div class="navulli"><a class="navullia" href="#">Create Blog <i class="fas fa-chevron-down"></i></a>
 						<div class="navulliul">
 							<div th:if="${blogDetails}" th:each="blog: ${blogDetails}">
-							<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}" href="#">1 tester</a></div>
+							<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}"  th:href="@{'/user/index/' + ${blog.bId}}">1 tester</a></div>
 							</div>
 							<div class="dropdown-divider"></div>
 							<div class="navulliulli"><a class="navulliullia navullia trigger_popup_fricc" href="#">Add Blog</a></div>

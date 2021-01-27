@@ -7,6 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,47 +54,13 @@ public class UserController {
 	
 	@GetMapping("/index")
 	public String index(Model model, Principal principal) {
-//		String userEmail = principal.getName();
-//		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
-//		model.addAttribute("blogDetails", blogDetails);
-//		model.addAttribute("title", "User-Dashboard - Blogistaan");
-//		return "/user/user-dashboard";
-		
-//		String userEmail = principal.getName();
-//		int userId = homeService.getUserDetails(userEmail).getId();
-////		Blog blog1 = blogService.findById(bId);
-//		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
-//		model.addAttribute("title", "User-Dashboard - Blogistaan");
-//		if(blogDetails.isEmpty()) {
-//			return "/user/user-dashboard";
-//		}
-//		else if(userId == blogDetails.get(0).getUser().getId()) {
-//			model.addAttribute("blogDetails", blogDetails);
-//			model.addAttribute("blog1", blogDetails.get(0));
-//			return "/user/user-dashboard";
-//		}
-//		else {
-//			model.addAttribute("error-message", "Error in displaying the data");
-//			return "/user/user-dashboard";
-//		}
-		
 		
 		String userEmail = principal.getName();
 		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
-//		model.addAttribute("user", homeService.getUserDetails(userEmail));
 		if(!blogDetails.isEmpty()) {
 			return "redirect:/user/index/"+ blogDetails.get(0).getBId();
 		}
 		return "/user/user-dashboard";
-		
-		
-
-//		String userEmail = principal.getName();
-//		int bId = homeService.getFirstBlog(userEmail);
-//		if(bId!=-1) {
-//			return "redirect:/user/index/"+ bId;
-//		}
-//		return "/user/user-dashboard";
 	}
 	
 	@GetMapping("/index/{bId}")
@@ -104,12 +74,7 @@ public class UserController {
 		System.out.println("Check if returned null true or false : " + blogOnPage==null + "...");
 		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
 		model.addAttribute("title", "User-Dashboard - Blogistaan");
-//		if(blogDetails.isEmpty() || (blogOnPage == null) ) {
-//			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
-//			return "/user/user-dashboard";
-//		}
 		if(!blogDetails.isEmpty() && (blogOnPage != null) && userId == blogOnPage.getUser().getId()) {
-//			postsService.getPostByBlogId(blogOnPage.getBId());
 			System.out.println("tester");
 			List<Posts> posts = blogOnPage.getPosts();
 			System.out.println("Post test check: "+ posts);
@@ -119,7 +84,6 @@ public class UserController {
 			return "/user/user-dashboard";
 		}
 		else {
-//		blogDetails.isEmpty() || 
 			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
 			model.addAttribute("blogDetails", blogDetails);
 			return "/user/user-dashboard";
@@ -135,13 +99,8 @@ public class UserController {
 	@PostMapping("/checkName")
 	@ResponseBody
 	public Response checkName(Principal principal, Model model, HttpSession session, HttpServletRequest request) {
-//		ModelAndView modelAndView = new ModelAndView();
-//		String name = request.getParameter("name");
-		
 		 CheckName n = new CheckName("Mayank"); 
 		 Response response = new Response("Done", n); 
-//		 CommonUtils.ConvertObjectToJSON(modelAndView).toString();
-//		modelAndView.addObject("response","Mayank");
 		System.out.println("Working");
 		return response;
 	}
@@ -197,39 +156,34 @@ public class UserController {
 		List<Blog> blogDetails = homeService.getBlogDetails(userEmail);
 		model.addAttribute("title", "Create new post - Blogistaan");
 		
-//		  if(blogDetails.isEmpty() || (blogOnPage == null) ) {
-//		  model.addAttribute("message", new Message("Error in displaying the data", "alert-danger")); 
-//			model.addAttribute("blogDetails", blogDetails);
-//		  return "/user/add-new-post"; 
-//		  }
 		  if(!blogDetails.isEmpty() && (blogOnPage != null) && userId == blogOnPage.getUser().getId()) {
 			System.out.println("tester");
-//			List<Posts> posts = blogOnPage.getPosts();
-//			System.out.println("Post testing check: "+ posts);
-//			model.addAttribute("posts", posts);
 			model.addAttribute("blogDetails", blogDetails);
 			model.addAttribute("blog1", blogOnPage);
 			model.addAttribute("singlePost", new Posts());
 			return "/user/add-new-post";
 		}
 		else {
-//		blogDetails.isEmpty() || 
 			System.out.println("this is done: ");
 			model.addAttribute("message", new Message("Error in displaying the data", "alert-danger"));
 			model.addAttribute("blogDetails", blogDetails);
 			return "/user/add-new-post";
 		}
-//		return "/user/add-new-post";
 	}
 	
 	@PostMapping("/postProcess")
-	public String postProcess(@ModelAttribute("post") Posts post, @RequestParam("bId") int bId, Model model) {
-//		System.out.println(post);
-//		Blog blog = blogService.findById(bId);
-//		post.setBlog(blog);
-//		blog.getPosts().add(post);
-		postsService.addPostToBlog(post, bId);
-//		model.addAttribute("content", content);
+	public String postProcess(@ModelAttribute("post") Posts post, @RequestParam("bId") int bId, @RequestParam("date1") String date1, Model model) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+		java.util.Date parse = null;
+		Date dateSql = null;
+		try {
+			parse = df.parse(date1);
+			dateSql = new java.sql.Date(parse.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		postsService.addPostToBlog(post, bId, dateSql);
 		return "redirect:/user/index/"+ bId;
 	}
 	

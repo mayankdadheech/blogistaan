@@ -39,6 +39,9 @@ public class BlogService {
 	
 	public String createBlog(String userEmail, Blog blog) {
 		User user = user_repo.getUserByUserName(userEmail);
+		if(blog.getCategory() == null) {
+			blog.setCategory("Other");
+		}
 		blog.setUser(user);
 		user.getBlogs().add(blog);
 		user_repo.save(user);

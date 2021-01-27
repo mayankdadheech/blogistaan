@@ -114,9 +114,7 @@
     $(document).ready(function(){
     	/* var name = $("#name").val(); */
     	var url = "/user/checkName";
-    	/* alert("1 is there."); */
     	$("#name").keyup(function(){
-    		/* alert("2 is there."); */
     		/* var formdata = {
     				name : $("#name").val()
     		} */
@@ -132,9 +130,7 @@
       			},
 				
     			success : function(response){
-    				/* alert("3 is there."); */
     				/* response = JSON.parse(response); */
-    				/* alert(response); */
     				console.log(response);
     				console.log(response.data.name);
     				console.log(response.status);

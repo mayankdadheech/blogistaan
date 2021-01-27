@@ -1,6 +1,7 @@
 package com.blogistaan.service;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,15 +33,26 @@ public class PostsService {
 		
 	}
 	
-	public void addPostToBlog(Posts post, int bId) {
+	public void addPostToBlog(Posts post, int bId, Date date1) {
 //		System.out.println(post);
 		Blog blog = blogService.findById(bId);
-		if(post.getDate()==null) {
+		System.out.println("testing1");
+//		if(post.getDate()==null) {
+		if(date1==null) {
+//			System.out.println("testing-1");
 			long millis=System.currentTimeMillis();  
+
+//			System.out.println("testing0");
 			java.sql.Date date=new java.sql.Date(millis);
+			System.out.println(date);
 			post.setDate(date);
+//			System.out.println("testing1");
+		}
+		else {
+			post.setDate(date1);
 		}
 		post.setBlog(blog);
+//		System.out.println("testing2");
 		blog.getPosts().add(post);
 		blog_repo.save(blog);
 	}
@@ -90,11 +102,11 @@ public class PostsService {
 			 while(all.contains("<")) {
 				 betweenn = between(all, "<", ">");
 				 System.out.println("betweenn"+betweenn + " aaaaaa");
-				 all = all.replaceAll(betweenn, " ");
+				 all = all.replace(betweenn, " ");
 			 }
 			 System.out.println("all: ");
 			 System.out.println(all);
-			 posts.get(i).setContent(all);
+			 posts.get(i).setContent(all.substring(0, 10)+"...");
 			 ++i;
 		}
 		return posts;

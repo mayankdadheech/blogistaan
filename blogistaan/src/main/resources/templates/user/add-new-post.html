@@ -83,7 +83,7 @@
 				<div class="navulli"><a class="navullia" href="#">Create Blog <i class="fas fa-chevron-down"></i></a>
 					<div class="navulliul">
 						<div th:if="${blogDetails}" th:each="blog: ${blogDetails}">
-						<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}" href="#">1 tester</a></div>
+						<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}"  th:href="@{'/user/index/' + ${blog.bId}}">1 tester</a></div>
 						</div>
 						<div class="dropdown-divider"></div>
 						<div class="navulliulli"><a class="navulliullia navullia trigger_popup_fricc" href="#">Add Blog</a></div>
@@ -132,7 +132,7 @@
 <form th:unless="${message}" th:object="${singlePost}" action="/user/postProcess" method="post" style="position:absolute; top:100px; left:300px; width:1000px;">
 <input type="hidden" name="bId" th:value="${blog1.bId}" >
 <input type="hidden" name="postId" th:value="${singlePost.postId}" >
-<input type="hidden" name="date" th:value="${singlePost.date}" >
+<input type="hidden" name="date1" th:value="${singlePost.date}" >
 	<div>
 		<h2 >Title</h2>
 		<input name="title" th:value="${singlePost.title}" class="title" style="width:1000px">
@@ -334,12 +334,11 @@
 							    }
 							   else{
 								   $("#namediv1").hide();
-								   $(".btns").prop('disabled', false);
+								  /*  $(".btns").prop('disabled', false); */
 							   }
 						   });
 						   
 						  $('.btns').click(function(){
-							  alert();
 							  var blogName = $('#name_field').val();
 							  var blogUrl = $('#url_field').val();
 							  var category = $('#category').val();

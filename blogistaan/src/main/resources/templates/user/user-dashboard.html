@@ -24,8 +24,70 @@
 
 <body>
 
-  <div th:insert="fragments/fragment-file :: navbarTopAndSide"></div>
-  
+ <!--  <div th:insert="fragments/fragment-file :: navbarTopAndSide"></div> -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3 mynav" style=" background-color:#23120b; font-size:15px;">
+	    <a class="navbar-brand" href="#">Navbar</a>
+	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navibar navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav ml-auto">
+	        <li class="nav-item active">
+	          <a class="nav-link" th:href="@{/home}">Home <span class="sr-only">(current)</span></a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" th:href="@{#about}">About</a>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="#latest-blogs">Blogs</a>
+	          </li>
+	          <li class="nav-item">
+	            <!-- <a class="nav-link" href="#">Login</a> -->
+	            <form method="post" th:action="@{/signin}">
+	            <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="login-button">Login</button>
+	            </form>
+	          </li>
+	          <li class="nav-item">
+	           <form th:action="@{/signup}" method="get">
+	           <button class="btn nav-link" style="background-color:#fff; height:34px; font-size:12px; color:black; " type="submit" name="register-button">Register</button>
+	           </form> 
+	           </li>
+	      </ul>
+	      </div>
+	    </nav>
+	
+	
+	
+		<aside>
+						
+			<div>
+					<div class="navulli"><a class="navullia" href="#">Create Blog <i class="fas fa-chevron-down"></i></a>
+						<div class="navulliul">
+							<div th:if="${blogDetails}" th:each="blog: ${blogDetails}">
+							<div class="navulliulli"><a class="navulliullia navullia" th:text="${blog.blogName}" th:href="@{'/user/index/' + ${blog.bId}}">1 tester</a></div>
+							</div>
+							<div class="dropdown-divider"></div>
+							<div class="navulliulli"><a class="navulliullia navullia trigger_popup_fricc" href="#">Add Blog</a></div>
+							
+							
+							
+						</div>	
+					</div>
+				</div>	
+	
+	<ul class="ulc">
+	
+	
+	
+	<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/index}">Posts</a></div></li>
+	<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{ ${blog1 != null} ? '/user/' + ${blog1.bId} + '/addPost': '/user/' + ${blogDetails.get(0).getBId()} + '/addPost' }">Add Post</a></div></li>
+	<li><div class="icons"><i class="fa fa-home"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/userProfile}"> User profile</a></div></li>
+	<!-- <li><div class="icons"><i class="fa fa-group"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/user/edit-user-blogs}"> Edit your blogs</a></div></li>
+	<li><div class="icons"><i class="fa fa-user"></i></div><div class="linktitle">Delete your blog</div></li> -->
+	<li><div class="icons"><i class="fa fa-sign-out"></i></div><div class="linktitle"><a style="text-decoration:none; color:#5a5b5b;"  th:href="@{/logout}"> Logout</a></div></li>
+	
+	</ul>
+	</aside>
   
   
 <div th:if="${message}" style="padding-left:300px; padding-top:100px;">
@@ -209,12 +271,11 @@
 							    }
 							   else{
 								   $("#namediv1").hide();
-								   $(".btns").prop('disabled', false);
+								/*    $(".btns").prop('disabled', false); */
 							   }
 						   });
 						   
 						  $('.btns').click(function(){
-							  alert();
 							  var blogName = $('#name_field').val();
 							  var blogUrl = $('#url_field').val();
 							  var category = $('#category').val();

@@ -267,12 +267,11 @@ $(document).ready(function() {
 	    }
 	   else{
 		   $("#namediv1").hide();
-		   $(".btns").prop('disabled', false);
+		   /* $(".btns").prop('disabled', false); */
 	   }
    });
    
   $('.btns').click(function(){
-	  alert();
 	  var blogName = $('#name_field').val();
 	  var blogUrl = $('#url_field').val();
 	  var category = $('#category').val();
